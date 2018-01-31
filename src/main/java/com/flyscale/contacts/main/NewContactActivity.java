@@ -16,7 +16,6 @@ import com.flyscale.contacts.R;
 import com.flyscale.contacts.base.BaseActivity;
 import com.flyscale.contacts.bean.ContactBean;
 import com.flyscale.contacts.global.Constants;
-import com.flyscale.contacts.util.ContactsUtil;
 
 /**
  * Created by MrBian on 2018/1/16.

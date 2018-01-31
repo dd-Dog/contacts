@@ -4,17 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.TextView;
 
 import com.flyscale.contacts.R;
 import com.flyscale.contacts.bean.ContactBean;
 import com.flyscale.contacts.bean.SpeedDialBean;
-import com.flyscale.contacts.db.DbHelper;
 import com.flyscale.contacts.db.SpeedDialDAO;
 import com.flyscale.contacts.global.Constants;
-import com.flyscale.contacts.util.ContactsUtil;
+import com.flyscale.contacts.util.ContactsDAO;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -78,12 +76,14 @@ public class DeleteConfirmActivity extends Activity {
                 status.setText(getResources().getString(R.string.deleting));
                 if (TextUtils.equals(action, Constants.DELETE_SPEED_DIAL)) {
                     new SpeedDialDAO(this).delete(speedDailBean.key + "");
-                }else if (TextUtils.equals(action, Constants.DELETE_CONTACT_MULTI)) {
+                } else if (TextUtils.equals(action, Constants.DELETE_CONTACT_MULTI)) {
                     ArrayList<ContactBean> beans = (ArrayList<ContactBean>)
                             getIntent().getSerializableExtra(Constants.CONTACT_MARKED_BEANS);
-                    ContactsUtil.delete(this, beans);
+                    for (int i = 0; i < beans.size(); i++) {
+                        ContactsDAO.delete(this, beans.get(i).getRawId());
+                    }
                 } else {
-                    ContactsUtil.delete(this, contactBean.getName());
+                    ContactsDAO.delete(this, contactBean.getRawId());
                 }
                 status.setText(getResources().getString(R.string.delete_success));
                 delayFinish();

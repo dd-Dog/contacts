@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.flyscale.contacts.R;
 import com.flyscale.contacts.bean.ContactBean;
 import com.flyscale.contacts.global.Constants;
-import com.flyscale.contacts.util.ContactsUtil;
+import com.flyscale.contacts.util.ContactsDAO;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -83,12 +83,12 @@ public class SaveConfirmActivity extends Activity {
                 if (dataComplete) {
                     status.setText(getResources().getString(R.string.saving));
                     if (TextUtils.equals(action, Constants.UPDATE_CONTACT)) {
-                        ContactsUtil.update(this, contactBean.getName(),
+                        ContactsDAO.update(this, contactBean.getRawId(),
                                 getIntent().getStringExtra(Constants.MODIFIED_NAME),
                                 getIntent().getStringExtra(Constants.MODIFIED_PHONE));
 
                     } else if (TextUtils.equals(action, Constants.SAVE_NEW_CONTACT)) {
-                        ContactsUtil.add(this, contactBean.getName(),
+                        ContactsDAO.add(this, contactBean.getName(),
                                 contactBean.getNumber());
                     }
                     delayFinish();

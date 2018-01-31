@@ -20,6 +20,9 @@ import java.util.ArrayList;
  * Created by MrBian on 2018/1/16.
  */
 
+/**
+ * @deprecated 请使用ContactsDAO
+ */
 public class ContactsUtil {
 
     private static final String TAG = "ContactsUtil";

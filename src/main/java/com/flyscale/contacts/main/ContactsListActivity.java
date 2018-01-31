@@ -20,7 +20,7 @@ import com.flyscale.contacts.bean.ContactBean;
 import com.flyscale.contacts.global.Constants;
 import com.flyscale.contacts.main.options.ContactListOptionsActivity;
 import com.flyscale.contacts.main.options.MarkOptionsActivity;
-import com.flyscale.contacts.util.ContactsUtil;
+import com.flyscale.contacts.util.ContactsDAO;
 
 import java.util.ArrayList;
 
@@ -59,8 +59,8 @@ public class ContactsListActivity extends BaseActivity {
         mSearchResults = new ArrayList<ContactBean>();
 
         if (TextUtils.equals(action, Constants.ACTION_SEARCH_CONTACT)) {
-            mPhoneContacts = ContactsUtil.getLocalContacts(this);
-            mSimContacts = ContactsUtil.getSIMContacts(this);
+            mPhoneContacts = ContactsDAO.getAllContacts(this);
+            mSimContacts = ContactsDAO.getSIMContacts(this);
             mContacts.clear();
             mContacts.addAll(mPhoneContacts);
             mContacts.addAll(mSimContacts);
@@ -87,6 +87,14 @@ public class ContactsListActivity extends BaseActivity {
             refreshData();
         }
         Log.d(TAG, "mPhoneContacts=" + mPhoneContacts + "mSimContacts=" + mSimContacts);
+
+//        ContactsDAO.addContact(this, "边建彪1111", "15033262664");
+//        ArrayList<ContactBean> allContactsBefore = ContactsDAO.getAllContacts(this);
+//        Log.d(TAG, "allContacts=" + allContactsBefore);
+//        ContactsDAO.delete(this,allContactsBefore.get(0).getRawId());
+//        ContactsDAO.update(this, allContactsBefore.get(0).getRawId(), "哈哈哈哈", "1111");
+//        ArrayList<ContactBean> allContactsAfter = ContactsDAO.getAllContacts(this);
+//        Log.d(TAG, "allContacts=" + allContactsAfter);
     }
 
     @Override
@@ -98,8 +106,8 @@ public class ContactsListActivity extends BaseActivity {
     }
 
     private void refreshData() {
-        mPhoneContacts = ContactsUtil.getLocalContacts(this);
-        mSimContacts = ContactsUtil.getSIMContacts(this);
+        mPhoneContacts = ContactsDAO.getAllContacts(this);
+        mSimContacts = ContactsDAO.getSIMContacts(this);
         mContacts.clear();
         mContacts.addAll(mPhoneContacts);
         mContacts.addAll(mSimContacts);

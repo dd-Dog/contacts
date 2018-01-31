@@ -15,7 +15,35 @@ public class ContactBean implements Serializable {
     private String name;
     private String type;
     private String number;
+    private long rawId;
     private boolean mark;
+
+    @Override
+    public String toString() {
+        return "ContactBean{" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", number='" + number + '\'' +
+                ", rawId='" + rawId + '\'' +
+                ", mark=" + mark +
+                '}';
+    }
+
+    public ContactBean(String name,  String number, long rawId,String type, boolean mark) {
+        this.name = name;
+        this.type = type;
+        this.number = number;
+        this.rawId = rawId;
+        this.mark = mark;
+    }
+
+    public long getRawId() {
+        return rawId;
+    }
+
+    public void setRawId(long rawId) {
+        this.rawId = rawId;
+    }
 
     public boolean isMark() {
         return mark;
@@ -29,15 +57,6 @@ public class ContactBean implements Serializable {
         this.name = name;
         this.type = type;
         this.number = number;
-    }
-
-    @Override
-    public String toString() {
-        return "ContactBean{" +
-                "name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", number='" + number + '\'' +
-                '}';
     }
 
     public static String getTypeLocal() {

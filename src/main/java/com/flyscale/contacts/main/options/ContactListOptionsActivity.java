@@ -120,6 +120,7 @@ public class ContactListOptionsActivity extends BaseActivity {
         if (RESULT_OK == resultCode) {
             switch (requestCode) {
                 case CONTACT_DETAIL:
+                    setResult(RESULT_OK, data);
                     finish();
                     break;
                 case DELETE_CONTACT:

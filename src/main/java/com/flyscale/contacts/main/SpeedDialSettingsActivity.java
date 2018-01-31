@@ -18,7 +18,6 @@ import com.flyscale.contacts.bean.SpeedDialBean;
 import com.flyscale.contacts.db.SpeedDialDAO;
 import com.flyscale.contacts.global.Constants;
 import com.flyscale.contacts.main.options.SpeedDialListOptionsActivity;
-import com.flyscale.contacts.util.ContactsUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;

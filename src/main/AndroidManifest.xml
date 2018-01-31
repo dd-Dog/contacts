@@ -22,7 +22,8 @@
 
         <activity android:name=".main.ContactsListActivity"
             android:exported="true"/>
-        <activity android:name=".main.NewContactActivity"/>
+        <activity android:name=".main.NewContactActivity"
+            android:exported="true"/>
         <activity android:name=".main.OwnNumberActivity"/>
         <activity android:name=".main.SearchActivity"/>
         <activity android:name=".main.SpeedDialSettingsActivity"/>

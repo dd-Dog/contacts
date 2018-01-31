@@ -192,6 +192,8 @@ public class ContactDetailActivity extends BaseActivity {
             } else if (requestCode == SAVE_MODIFY) {
                 modifySuccess = true;
                 exitEditMode();
+                setResult(RESULT_OK, data);
+                finish();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
