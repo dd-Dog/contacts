@@ -1,0 +1,97 @@
+<resources>
+    <string name="app_name">Contacts</string>
+    <string name="confirm">Confirm</string>
+    <string name="back">Return</string>
+    <string name="options">Options</string>
+    <string name="phonenumber">PhoneNumber</string>
+    <string name="edit_msg">Edit</string>
+    <string name="capacity">Capacity</string>
+    <string name="clear">clear</string>
+    <string name="empty_phone">Empty Phone Number</string>
+    <string name="insert_sim">No SIM Card</string>
+    <string name="send_msg_success">Send Message Success</string>
+    <string name="send_msg_fail">Send Message Failed</string>
+    <string name="msg_sending">Sending</string>
+    <string name="contacts">Contacts</string>
+    <string name="name">name</string>
+    <string name="mobile_phone">Mobile Phone</string>
+    <string name="in_box">InBox</string>
+    <string name="out_box">OutBox</string>
+    <string name="read_msg">Read Message</string>
+    <string name="isdelete">Delete?</string>
+    <string name="deleting">deteting...</string>
+    <string name="common_sms">Commons</string>
+    <string name="cancel">Cancel</string>
+    <string name="detail">Details</string>
+    <string name="sender">Sender</string>
+    <string name="date">Date</string>
+    <string name="service_center">Service Center</string>
+    <string name="extrac_num">Extract Number</string>
+    <string name="empty">Empty</string>
+    <string name="sent_box">SentBox</string>
+    <string name="receiver">Receiver</string>
+    <string name="edit">Edit</string>
+    <string name="empty_content">Empty</string>
+    <string name="sms_settings">Mms Settings</string>
+    <string name="sms_storage">Storage</string>
+    <string name="delete_success">Delete Success</string>
+    <string name="delete_failed">Delete Failed</string>
+    <string name="draft_box">Draft</string>
+    <string name="saving">Saving...</string>
+    <string name="save_success">Save Success</string>
+    <string name="save_failed">Save Failed</string>
+    <string name="save">Save</string>
+    <string name="edit_contact">Edit</string>
+    <string name="call">Call</string>
+    <string name="new_contact">New</string>
+    <string name="empty_name_phone">Please input name or phone!</string>
+    <string name="search">Search</string>
+    <string name="keyword_null">Keyword is null!</string>
+    <string name="local_number">MyPhoneNumber</string>
+    <string name="speed_dial">SpeedDial</string>
+    <string name="exit">Exit</string>
+
+
+    <array name="main">
+        <item>1.My Contacts</item>
+        <item>2.New</item>
+        <item>3.Search</item>
+        <item>4.Speed dial settings</item>
+        <item>5.Own number</item>
+    </array>
+
+    <array name="contactsoptions">
+        <item>1.Details</item>
+        <item>2.New message</item>
+        <item>3.Voice Call</item>
+        <item>4.Delete</item>
+        <item>5.Delete multiple</item>
+        <item>6.Copy</item>
+        <item>7.Copy multiple</item>
+    </array>
+
+    <array name="contactdetailoptions">
+        <item>1.Edit</item>
+        <item>2.Delete</item>
+    </array>
+
+    <array name="mark">
+        <item>1.Mark</item>
+        <item>2.Unmark</item>
+        <item>3.Select All</item>
+        <item>4.Unselect All</item>
+    </array>
+
+    <array name="newcontacts">
+        <item>Name</item>
+        <item>Mobile</item>
+    </array>
+
+    <array name="speeddialoptionsnotempty">
+        <item>1.Detail</item>
+        <item>2.Edit</item>
+        <item>3.Contacts</item>
+        <item>4.Call</item>
+        <item>5.Delete</item>
+    </array>
+</resources>
