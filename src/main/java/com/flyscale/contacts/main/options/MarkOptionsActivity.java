@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.flyscale.contacts.R;
 import com.flyscale.contacts.global.Constants;
+import com.flyscale.contacts.main.CopyStatusActivity;
 import com.flyscale.contacts.main.DeleteConfirmActivity;
 
 
@@ -25,9 +26,11 @@ public class MarkOptionsActivity extends Activity {
 
     private static final int DELETE_MSG_CONFIRM = 1007;
     private static final int GET_MARK_OPTIONS = 1008;
+    private static final int COPYT_CONTACTS_CONFIRM = 1025;
     private ListView mOptions;
     private String[] mOptionsData;
     private String markOption;
+    private String markPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,7 @@ public class MarkOptionsActivity extends Activity {
 
     private void initData() {
         markOption = getIntent().getStringExtra(Constants.MARK_OPTION);
+        markPoint = getIntent().getStringExtra(Constants.MARK_POINT);
         if (TextUtils.equals(markOption, Constants.MARK_ALL)) {
             mOptionsData = getResources().getStringArray(R.array.mark3);
         } else if (TextUtils.equals(markOption, Constants.CANCEL_ALL_MARKS)) {
@@ -68,10 +72,18 @@ public class MarkOptionsActivity extends Activity {
         mark.putExtra(Constants.ACTION, Constants.MARK_OPTION);
         switch (position) {
             case 0:
-                Intent delete = new Intent(MarkOptionsActivity.this, DeleteConfirmActivity.class);
-                delete.putExtra(Constants.ACTION, Constants.DELETE_CONTACT_MULTI);
-                delete.putExtras(getIntent().getExtras());
-                startActivityForResult(delete, DELETE_MSG_CONFIRM);
+                if (TextUtils.equals(markPoint, Constants.MARK_TO_DELETE)) {
+                    Intent delete = new Intent(MarkOptionsActivity.this, DeleteConfirmActivity.class);
+
+                    delete.putExtra(Constants.ACTION, Constants.DELETE_CONTACT_MULTI);
+                    delete.putExtras(getIntent().getExtras());
+                    startActivityForResult(delete, DELETE_MSG_CONFIRM);
+                }else if (TextUtils.equals(markPoint, Constants.MARK_TO_COPY)) {
+                    Intent copy = new Intent(MarkOptionsActivity.this, CopyStatusActivity.class);
+                    copy.putExtra(Constants.ACTION, Constants.COPY_CONTACTS);
+                    copy.putExtras(getIntent().getExtras());
+                    startActivityForResult(copy, COPYT_CONTACTS_CONFIRM);
+                }
                 break;
             case 1:
                 if (TextUtils.equals(markOption, Constants.CANCEL_ALL_MARKS) ||
@@ -116,6 +128,11 @@ public class MarkOptionsActivity extends Activity {
                 setResult(RESULT_OK, data);
             }
             finish();
+        }else if (requestCode == COPYT_CONTACTS_CONFIRM) {
+            if (resultCode == RESULT_OK) {
+                setResult(RESULT_OK, data);
+                finish();
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

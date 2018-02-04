@@ -6,7 +6,6 @@
     <string name="options">选项</string>
     <string name="phonenumber">电话号码</string>
     <string name="edit_msg">编辑信息</string>
-    <string name="capacity">信息容量</string>
     <string name="clear">清除</string>
     <string name="empty_phone">空号码</string>
     <string name="insert_sim">插入SIM卡</string>
@@ -51,6 +50,10 @@
     <string name="local_number">本机号码</string>
     <string name="speed_dial">设置快速拨号号码</string>
     <string name="exit">退出</string>
+    <string name="save_position">存储位置</string>
+    <string name="capacity">容量查询</string>
+    <string name="copy_confirm">确认复制？</string>
+    <string name="copyt_success">复制成功</string>
 
     <array name="main">
         <item>1.查看联系人</item>
@@ -58,6 +61,7 @@
         <item>3.查找</item>
         <item>4.快捷拨号设置</item>
         <item>5.本机号码</item>
+        <item>6.SIM卡容量</item>
     </array>
 
     <array name="contactsoptions">
@@ -100,5 +104,28 @@
         <item>3.修改联系人</item>
         <item>4.呼叫</item>
         <item>5.删除</item>
+    </array>
+
+    <array name="phone_sim">
+        <item>1.手机</item>
+        <item>2.SIM卡</item>
+    </array>
+    <array name="phone">
+        <item>1.手机</item>
+    </array>
+
+    <array name="sim_capacity">
+        <item>SIM:</item>
+    </array>
+    <array name="copy_to_phone">
+        <item>1.拷贝到本机</item>
+    </array>
+    <array name="copy_to_sim">
+        <item>1.拷贝到SIM卡</item>
+    </array>
+
+    <array name="copy_des">
+        <item>从手机到SIM</item>
+        <item>从SIM到手机</item>
     </array>
 </resources>

@@ -3,6 +3,7 @@ package com.flyscale.contacts.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class NewContactActivity extends BaseActivity {
     private ContactBean contactBean;
     private String newName;
     private String newPhone;
+    private String mType;
 
     @Override
     protected void setContentView() {
@@ -39,12 +41,19 @@ public class NewContactActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        String action = getIntent().getStringExtra(Constants.ACTION);
         mMainData = getResources().getStringArray(R.array.newcontacts);
-//        ContactsUtil.add(this, "边建彪", "15033262664");
-//        ContactsUtil.add(this, "邢鹏鹏", "15032268560");
-//        ContactsUtil.add(this, "王小狗", "17778985560");
-//        ContactsUtil.update(this, "边建彪", "哈奇","55555555555");
-//        ContactsUtil.delete(this, "边2边");
+        if (TextUtils.equals(action, Constants.EXTRACT_SAVE)
+                || TextUtils.equals(action, Constants.SAVE_NEW_CONTACT)) {
+            String name = getIntent().getStringExtra(Constants.CONTACT_NAME);
+            String phone = getIntent().getStringExtra(Constants.CONTACT_PHONE);
+            if (!TextUtils.isEmpty(name))
+                mMainData[0] = name;
+            if (!TextUtils.isEmpty(phone))
+                mMainData[1] = phone;
+        }
+        mType = getIntent().getStringExtra(Constants.NEW_CONTACT_TYPE);
+        Log.d(TAG, "mType=" + mType);
     }
 
     @Override
@@ -78,9 +87,9 @@ public class NewContactActivity extends BaseActivity {
     private void save() {
         Intent intent = new Intent(this, SaveConfirmActivity.class);
         intent.putExtra(Constants.ACTION, Constants.SAVE_NEW_CONTACT);
-        ContactBean contactBean = new ContactBean(newName, newPhone, ContactBean.TYPE_LOCAL);
+        ContactBean newBean = new ContactBean(newName, newPhone, mType);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.CONTACT_BEAN, contactBean);
+        bundle.putSerializable(Constants.CONTACT_BEAN, newBean);
         intent.putExtras(bundle);
         startActivityForResult(intent, SAVE_NEW_CONTACT);
     }
@@ -92,7 +101,6 @@ public class NewContactActivity extends BaseActivity {
                 save();
                 return true;
             case KeyEvent.KEYCODE_BACK:
-
                 break;
         }
         return super.onKeyUp(keyCode, event);

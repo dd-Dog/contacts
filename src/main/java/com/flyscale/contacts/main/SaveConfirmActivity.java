@@ -43,16 +43,29 @@ public class SaveConfirmActivity extends Activity {
 
     private void initData() {
         contactBean = (ContactBean) getIntent().getSerializableExtra(Constants.CONTACT_BEAN);
+        String newName = getIntent().getStringExtra(Constants.MODIFIED_NAME);
+        String newPHone = getIntent().getStringExtra(Constants.MODIFIED_PHONE);
         action = getIntent().getStringExtra(Constants.ACTION);
-        if (TextUtils.isEmpty(contactBean.getName()) ||
-                TextUtils.isEmpty(contactBean.getNumber())) {
-            status.setText(getResources().getString(R.string.empty_name_phone));
-            dataComplete = false;
-            confirm.setVisibility(View.INVISIBLE);
-        } else {
-            status.setText(getResources().getString(R.string.save) + "?");
-            dataComplete = true;
-            confirm.setVisibility(View.VISIBLE);
+        if (TextUtils.equals(action, Constants.SAVE_NEW_CONTACT)) {
+            if (contactBean == null) {
+                status.setText(getResources().getString(R.string.empty_name_phone));
+                dataComplete = false;
+                confirm.setVisibility(View.INVISIBLE);
+            } else {
+                status.setText(getResources().getString(R.string.save) + "?");
+                dataComplete = true;
+                confirm.setVisibility(View.VISIBLE);
+            }
+        } else if (TextUtils.equals(action, Constants.UPDATE_CONTACT)) {
+            if (TextUtils.isEmpty(newName) || TextUtils.isEmpty(newPHone)) {
+                status.setText(getResources().getString(R.string.empty_name_phone));
+                dataComplete = false;
+                confirm.setVisibility(View.INVISIBLE);
+            } else {
+                status.setText(getResources().getString(R.string.save) + "?");
+                dataComplete = true;
+                confirm.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -83,13 +96,14 @@ public class SaveConfirmActivity extends Activity {
                 if (dataComplete) {
                     status.setText(getResources().getString(R.string.saving));
                     if (TextUtils.equals(action, Constants.UPDATE_CONTACT)) {
-                        ContactsDAO.update(this, contactBean.getRawId(),
+                        ContactBean newBean = new ContactBean(
                                 getIntent().getStringExtra(Constants.MODIFIED_NAME),
-                                getIntent().getStringExtra(Constants.MODIFIED_PHONE));
+                                getIntent().getStringExtra(Constants.MODIFIED_PHONE),
+                                this.contactBean.getType());
+                        ContactsDAO.update(this, this.contactBean, newBean);
 
                     } else if (TextUtils.equals(action, Constants.SAVE_NEW_CONTACT)) {
-                        ContactsDAO.add(this, contactBean.getName(),
-                                contactBean.getNumber());
+                        ContactsDAO.add(this, contactBean);
                     }
                     delayFinish();
                 }

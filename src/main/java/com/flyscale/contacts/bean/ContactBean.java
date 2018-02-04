@@ -98,6 +98,7 @@ public class ContactBean implements Serializable {
     @Override
     public boolean equals(Object obj) {
         ContactBean bean = (ContactBean) obj;
-        return TextUtils.equals(bean.getNumber(), number);
+        return (TextUtils.equals(bean.getNumber(), number)&&
+                TextUtils.equals(bean.getName(), name));
     }
 }

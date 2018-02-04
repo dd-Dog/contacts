@@ -33,11 +33,13 @@ public class ContactsUtil {
      * @param context
      * @return
      * @deprecated 该方法获取的名字有问题
+     *  ContactsContract.Contacts.CONTENT_URI
+     *  ContactsContract.CommonDataKinds.Phone.CONTENT_URI
      */
     public static ArrayList<ContactBean> getPhoneContacts(Context context) {
         ArrayList<ContactBean> contactBeans = null;
         ContentResolver resolver = context.getContentResolver();
-        Cursor phoneCursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+        Cursor phoneCursor = resolver.query(ContactsContract.Contacts.CONTENT_URI,
                 null, null, null, null);
         if (phoneCursor != null) {
             contactBeans = new ArrayList<ContactBean>();
@@ -157,7 +159,7 @@ public class ContactsUtil {
      */
     public static void update(Context context, String oldname, String name, String phone) {
 
-        Log.d(TAG, "update::oldname=" + oldname + ",name=" + name + ",phone=" + phone);
+        Log.d(TAG, "updateToLocal::oldname=" + oldname + ",name=" + name + ",phone=" + phone);
         if (TextUtils.isEmpty(oldname)) {
             return;
         }

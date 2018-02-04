@@ -50,6 +50,9 @@
     <string name="local_number">MyPhoneNumber</string>
     <string name="speed_dial">SpeedDial</string>
     <string name="exit">Exit</string>
+    <string name="save_position">Position</string>
+    <string name="copy_confirm">Copy</string>
+    <string name="copyt_success">Copy Success</string>
 
 
     <array name="main">
@@ -58,6 +61,7 @@
         <item>3.Search</item>
         <item>4.Speed dial settings</item>
         <item>5.Own number</item>
+        <item>6.SIM Capacity</item>
     </array>
 
     <array name="contactsoptions">
@@ -93,5 +97,28 @@
         <item>3.Contacts</item>
         <item>4.Call</item>
         <item>5.Delete</item>
+    </array>
+
+    <array name="phone_sim">
+        <item>1.Telephone</item>
+        <item>2.SIM</item>
+    </array>
+    <array name="phone">
+        <item>1.Telephone</item>
+    </array>
+    <array name="sim_capacity">
+        <item>SIM:</item>
+    </array>
+
+    <array name="copy_to_sim">
+        <item>1.Copy To SIM</item>
+    </array>
+    <array name="copy_to_phone">
+        <item>1.Copy To Phone</item>
+    </array>
+
+    <array name="copy_des">
+        <item>From phone to SIM</item>
+        <item>From SIM to phone</item>
     </array>
 </resources>

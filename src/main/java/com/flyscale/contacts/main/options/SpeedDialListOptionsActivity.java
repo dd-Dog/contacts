@@ -83,7 +83,7 @@ public class SpeedDialListOptionsActivity extends BaseActivity {
                 break;
             case 3:
                 Intent call = new Intent(Intent.ACTION_CALL,
-                        Uri.parse("tel:" + contactBean.getNumber()));
+                        Uri.parse("tel:" + speedDialBean.phone));
                 startActivity(call);
                 break;
             case 4:

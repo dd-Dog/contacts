@@ -15,6 +15,7 @@ import com.flyscale.contacts.db.SpeedDialDAO;
 import com.flyscale.contacts.global.Constants;
 import com.flyscale.contacts.util.ContactsDAO;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,21 +24,19 @@ import java.util.TimerTask;
  * Created by MrBian on 2018/1/13.
  */
 
-public class DeleteConfirmActivity extends Activity {
+public class CopyStatusActivity extends Activity {
 
     private static final String TAG = "DeleteConfirmActivity";
     private TextView confirm;
     private TextView status;
     private TextView cancel;
-    private String smsUri;
-    private ContactBean contactBean;
     private String action;
-    private SpeedDialBean speedDailBean;
+    private ContactBean contactBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_delete_confirm);
+        setContentView(R.layout.activity_copy_confirm);
 
         initView();
         initData();
@@ -46,7 +45,6 @@ public class DeleteConfirmActivity extends Activity {
 
     private void initData() {
         action = getIntent().getStringExtra(Constants.ACTION);
-        speedDailBean = (SpeedDialBean) getIntent().getSerializableExtra(Constants.SPEED_DIAL_BEAN);
         contactBean = (ContactBean) getIntent().getSerializableExtra(Constants.CONTACT_BEAN);
     }
 
@@ -62,7 +60,7 @@ public class DeleteConfirmActivity extends Activity {
             @Override
             public void run() {
                 Intent intent = new Intent();
-                intent.putExtra(Constants.ACTION, Constants.DELETE_DONE);
+                intent.putExtra(Constants.ACTION, Constants.COPY_DONE);
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -74,36 +72,40 @@ public class DeleteConfirmActivity extends Activity {
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_MENU:
-                status.setText(getResources().getString(R.string.deleting));
-                if (TextUtils.equals(action, Constants.DELETE_SPEED_DIAL)) {
-                    new SpeedDialDAO(this).delete(speedDailBean.key + "");
-                } else if (TextUtils.equals(action, Constants.DELETE_CONTACT_MULTI)) {
-                    final ArrayList<ContactBean> beans = (ArrayList<ContactBean>)
-                            getIntent().getSerializableExtra(Constants.CONTACT_MARKED_BEANS);
-                    Log.d(TAG, "beans=" + beans);
+                if (TextUtils.equals(action, Constants.COPY_CONTACTS)) {
+                    ArrayList<ContactBean> beans = (ArrayList<ContactBean>) getIntent
+                            ().getSerializableExtra(Constants.CONTACT_MARKED_BEANS);
                     for (int i = 0; i < beans.size(); i++) {
-                        ContactsDAO.delete(DeleteConfirmActivity.this, beans.get(i));
+                        copy(beans.get(i));
                     }
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            for (int i = 0; i < beans.size(); i++) {
-//                                ContactsDAO.delete(DeleteConfirmActivity.this, beans.get(i));
-//                            }
-//                        }
-//                    }).start();
-                } else {
-                    ContactsDAO.delete(this, contactBean);
+                    status.setText(getResources().getString(R.string.copyt_success));
+                    delayFinish();
+                    return true;
                 }
-                status.setText(getResources().getString(R.string.delete_success));
+                if (contactBean != null) {
+                    copy(contactBean);
+                }
+                status.setText(getResources().getString(R.string.copyt_success));
                 delayFinish();
                 return true;
 
             case KeyEvent.KEYCODE_BACK:
+                Intent intent = new Intent();
+                intent.putExtra(Constants.ACTION, Constants.COPY_DONE);
+                setResult(RESULT_OK, intent);
                 finish();
                 break;
 
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    private void copy(ContactBean bean) {
+        if (TextUtils.equals(bean.getType(), ContactBean.TYPE_LOCAL)) {
+            ContactsDAO.addToSim(this, bean.getName(), bean.getNumber());
+        } else {
+            ContactsDAO.addToLocal(this, bean.getName(), bean.getNumber
+                    ());
+        }
     }
 }

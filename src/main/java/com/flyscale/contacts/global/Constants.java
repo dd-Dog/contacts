@@ -5,7 +5,7 @@ package com.flyscale.contacts.global;
  */
 
 public class Constants {
-
+    public static final String EXTRACT_SAVE = "extract_save";
     public static final String ACTION_APPEND = "append";
     public static final String ACTION = "action";
     public static final String NEW_MSG_NUM = "new_msg_num";
@@ -55,6 +55,7 @@ public class Constants {
     public static final String OWN_NAME = "own_name";
     public static final String OWN_NUMBER = "own_number";
     public static final String SPEED_DIAL_NUMBERS = "speed_dial_numbers";
+    public static final String ADD_TO_CONTACT = "add_to_contact";
 
     public static final int COMMONS_COUNT = 10;
 
@@ -73,4 +74,11 @@ public class Constants {
     public static final String CONTACT_PHONE = "contact_phone";
     public static final String CONTACT_NAME = "contact_name";
     public static final String GET_CONTACT_BEAN = "get_contact_bean";
+    public static final String NEW_CONTACT_TYPE = "new_contact_type";
+    public static final String COPY_DONE = "copy_done";
+    public static final String COPY_TYPE = "copy_type";
+    public static final String PHONE_TO_SIM = "phone_to_sim";
+    public static final String SIM_TO_PHONE = "sim_to_phone";
+    public static final String MARK_TO_COPY = "mark_to_copy";
+    public static final String COPY_CONTACTS = "copy_contacts";
 }

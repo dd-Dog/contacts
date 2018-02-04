@@ -11,11 +11,13 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.flyscale.contacts.main.CapacityActivity;
 import com.flyscale.contacts.main.ContactsListActivity;
 import com.flyscale.contacts.main.NewContactActivity;
 import com.flyscale.contacts.main.OwnNumberActivity;
 import com.flyscale.contacts.main.SearchActivity;
 import com.flyscale.contacts.main.SpeedDialSettingsActivity;
+import com.flyscale.contacts.main.options.NewContactOptionsActivity;
 
 
 public class MainActivity extends Activity {
@@ -38,10 +40,11 @@ public class MainActivity extends Activity {
         mMainData = getResources().getStringArray(R.array.main);
         mActivities = new Class[mMainData.length];
         mActivities[0] = ContactsListActivity.class;
-        mActivities[1] = NewContactActivity.class;
+        mActivities[1] = NewContactOptionsActivity.class;
         mActivities[2] = SearchActivity.class;
         mActivities[3] = SpeedDialSettingsActivity.class;
         mActivities[4] = OwnNumberActivity.class;
+        mActivities[5] = CapacityActivity.class;
 
     }
 

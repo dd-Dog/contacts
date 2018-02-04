@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.flyscale.contacts">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
@@ -38,6 +39,12 @@
         <activity android:name=".main.EditSpeedNumberActivity"/>
         <activity android:name=".main.options.SpeedDialListOptionsActivity"/>
         <activity android:name=".main.SpeedDialItemDetailActivity"/>
+        <activity android:name=".main.options.NewContactOptionsActivity"
+            android:exported="true"/>
+        <activity android:name=".main.CapacityActivity"/>
+        <activity android:name=".main.options.CopyOptionsActivity"/>
+        <activity android:name=".main.CopyStatusActivity"/>
+        <activity android:name=".main.options.CopyDesOptionsActivity"/>
 
         <provider
             android:authorities="com.flyscale.contacts.provider"

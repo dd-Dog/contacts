@@ -21,6 +21,7 @@ import com.flyscale.contacts.global.Constants;
 import com.flyscale.contacts.main.options.ContactListOptionsActivity;
 import com.flyscale.contacts.main.options.MarkOptionsActivity;
 import com.flyscale.contacts.util.ContactsDAO;
+import com.flyscale.contacts.util.ContactsUtil;
 
 import java.util.ArrayList;
 
@@ -34,8 +35,6 @@ public class ContactsListActivity extends BaseActivity {
     private static final int CONTACT_DETAIL = 1001;
     private static final int GET_CONTACT_OPTIONS = 1002;
     private static final int GET_CONTACT_MARK_OPTIONS = 1006;
-    private ArrayList<ContactBean> mPhoneContacts;
-    private ArrayList<ContactBean> mSimContacts;
     private ArrayList<ContactBean> mContacts;
     private ListView mContactsList;
     private TextView cancel;
@@ -59,11 +58,11 @@ public class ContactsListActivity extends BaseActivity {
         mSearchResults = new ArrayList<ContactBean>();
 
         if (TextUtils.equals(action, Constants.ACTION_SEARCH_CONTACT)) {
-            mPhoneContacts = ContactsDAO.getAllContacts(this);
-            mSimContacts = ContactsDAO.getSIMContacts(this);
             mContacts.clear();
-            mContacts.addAll(mPhoneContacts);
-            mContacts.addAll(mSimContacts);
+            mContacts = ContactsDAO.getAllContacts(this);
+//            mSimContacts = ContactsDAO.getSIMContacts(this);
+//            mContacts.addAll(mPhoneContacts);
+//            mContacts.addAll(mSimContacts);
             String keyword = getIntent().getStringExtra(Constants.INTENT_DATA);
             for (int i = 0; i < mContacts.size(); i++) {
                 ContactBean contactBean = mContacts.get(i);
@@ -86,15 +85,15 @@ public class ContactsListActivity extends BaseActivity {
             }
             refreshData();
         }
-        Log.d(TAG, "mPhoneContacts=" + mPhoneContacts + "mSimContacts=" + mSimContacts);
 
-//        ContactsDAO.addContact(this, "边建彪1111", "15033262664");
-//        ArrayList<ContactBean> allContactsBefore = ContactsDAO.getAllContacts(this);
-//        Log.d(TAG, "allContacts=" + allContactsBefore);
-//        ContactsDAO.delete(this,allContactsBefore.get(0).getRawId());
-//        ContactsDAO.update(this, allContactsBefore.get(0).getRawId(), "哈哈哈哈", "1111");
-//        ArrayList<ContactBean> allContactsAfter = ContactsDAO.getAllContacts(this);
-//        Log.d(TAG, "allContacts=" + allContactsAfter);
+        ArrayList<ContactBean> localContacts = ContactsUtil.getLocalContacts(this);
+        Log.d(TAG, "localContacts=" + localContacts);
+//        ArrayList<ContactBean> simContactsBefore = ContactsDAO.getSimContacts(this);
+//        Log.d(TAG, "simContactsBefore=" + simContactsBefore);
+//        ContactsDAO.deleteToSim(this, "边建彪1111", "15033262664");
+//        ArrayList<ContactBean> simContactsAfter = ContactsDAO.getSimContacts(this);
+//        Log.d(TAG, "simContactsAfter=" + simContactsAfter);
+//        ContactsDAO.getTest(this);
     }
 
     @Override
@@ -106,12 +105,16 @@ public class ContactsListActivity extends BaseActivity {
     }
 
     private void refreshData() {
-        mPhoneContacts = ContactsDAO.getAllContacts(this);
-        mSimContacts = ContactsDAO.getSIMContacts(this);
         mContacts.clear();
-        mContacts.addAll(mPhoneContacts);
-        mContacts.addAll(mSimContacts);
+        mContacts = ContactsDAO.getAllContacts(this);
         listAdapter.notifyDataSetChanged();
+    }
+
+    private void refreshView() {
+        findViewById(R.id.empty).setVisibility((mContacts.size()) == 0 ?
+                View.VISIBLE : View.GONE);
+        mContactsList.setVisibility((mContacts.size()) == 0 ?
+                View.GONE : View.VISIBLE);
     }
 
     private void unMarkAll() {
@@ -181,9 +184,11 @@ public class ContactsListActivity extends BaseActivity {
                 if (markSituation) {
                     Intent intent = new Intent(this, MarkOptionsActivity.class);
                     Bundle bundle = new Bundle();
+                    Log.d(TAG, "markedbeans=" + getMarkedBeans());
                     bundle.putSerializable(Constants.CONTACT_MARKED_BEANS,
                             getMarkedBeans());
                     intent.putExtra(Constants.MARK_OPTION, getCurrentMarkOption());
+                    intent.putExtra(Constants.MARK_POINT, markPoint);
                     intent.putExtras(bundle);
                     startActivityForResult(intent, GET_CONTACT_MARK_OPTIONS);
                 } else {
@@ -247,9 +252,9 @@ public class ContactsListActivity extends BaseActivity {
     @Override
     protected void initView() {
         mContactsList = (ListView) findViewById(R.id.main);
-        findViewById(R.id.empty).setVisibility((mPhoneContacts.size() + mSimContacts.size()) == 0 ?
+        findViewById(R.id.empty).setVisibility((mContacts.size()) == 0 ?
                 View.VISIBLE : View.GONE);
-        mContactsList.setVisibility((mPhoneContacts.size() + mSimContacts.size()) == 0 ?
+        mContactsList.setVisibility((mContacts.size()) == 0 ?
                 View.GONE : View.VISIBLE);
         cancel = (TextView) findViewById(R.id.back);
         mContactsList.setAdapter(listAdapter);
@@ -304,6 +309,7 @@ public class ContactsListActivity extends BaseActivity {
             int position = mContactsList.getSelectedItemPosition();
             if (TextUtils.equals(action, Constants.DELETE_DONE)) {
                 refreshData();
+                refreshView();
                 unMarkAll();
             } else if ((TextUtils.equals(action, Constants.MARK_OPTION))) {
                 String markOption = data.getStringExtra(Constants.MARK_OPTION);
@@ -320,6 +326,10 @@ public class ContactsListActivity extends BaseActivity {
                 }
             } else if (TextUtils.equals(action, Constants.SAVE_COMMONT_DONE)) {
                 refreshData();
+            }else if (TextUtils.equals(action, Constants.COPY_DONE)){
+                refreshData();
+                refreshView();
+                unMarkAll();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
