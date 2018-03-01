@@ -55,7 +55,6 @@ public class Constants {
     public static final String OWN_NAME = "own_name";
     public static final String OWN_NUMBER = "own_number";
     public static final String SPEED_DIAL_NUMBERS = "speed_dial_numbers";
-    public static final String ADD_TO_CONTACT = "add_to_contact";
 
     public static final int COMMONS_COUNT = 10;
 
@@ -81,4 +80,5 @@ public class Constants {
     public static final String SIM_TO_PHONE = "sim_to_phone";
     public static final String MARK_TO_COPY = "mark_to_copy";
     public static final String COPY_CONTACTS = "copy_contacts";
+    public static final String ACTION_OVERRIDE = "override_contact";
 }

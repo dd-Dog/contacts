@@ -54,6 +54,8 @@
     <string name="capacity">容量查询</string>
     <string name="copy_confirm">确认复制？</string>
     <string name="copyt_success">复制成功</string>
+    <string name="no_simcard">请插入SIM卡</string>
+    <string name="override">确定覆盖</string>
 
     <array name="main">
         <item>1.查看联系人</item>
@@ -107,11 +109,11 @@
     </array>
 
     <array name="phone_sim">
-        <item>1.手机</item>
+        <item>1.话机</item>
         <item>2.SIM卡</item>
     </array>
     <array name="phone">
-        <item>1.手机</item>
+        <item>1.话机</item>
     </array>
 
     <array name="sim_capacity">
@@ -125,7 +127,7 @@
     </array>
 
     <array name="copy_des">
-        <item>从手机到SIM</item>
-        <item>从SIM到手机</item>
+        <item>从话机到SIM</item>
+        <item>从SIM到话机</item>
     </array>
 </resources>

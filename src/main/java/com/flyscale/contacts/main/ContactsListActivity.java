@@ -1,6 +1,8 @@
 package com.flyscale.contacts.main;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -35,6 +37,7 @@ public class ContactsListActivity extends BaseActivity {
     private static final int CONTACT_DETAIL = 1001;
     private static final int GET_CONTACT_OPTIONS = 1002;
     private static final int GET_CONTACT_MARK_OPTIONS = 1006;
+    private static final int OVERRIDE_CONTACT = 1030;
     private ArrayList<ContactBean> mContacts;
     private ListView mContactsList;
     private TextView cancel;
@@ -44,6 +47,7 @@ public class ContactsListActivity extends BaseActivity {
     private ArrayList<ContactBean> mSearchResults;
     private String markPoint;
     private boolean pickMode;
+    private boolean override;
 
     @Override
     protected void setContentView() {
@@ -78,9 +82,16 @@ public class ContactsListActivity extends BaseActivity {
         } else {
             if (TextUtils.equals(action, Constants.SELECT_CONTACT)) {
                 selectMode = true;
+                override = false;
                 pickMode = false;
             } else if (TextUtils.equals(action, Constants.PICK_CONTACT)) {
                 pickMode = true;
+                selectMode = false;
+                override = false;
+            }
+            if (TextUtils.equals(action, Constants.ACTION_OVERRIDE)) {
+                override = true;
+                pickMode = false;
                 selectMode = false;
             }
             refreshData();
@@ -88,12 +99,6 @@ public class ContactsListActivity extends BaseActivity {
 
         ArrayList<ContactBean> localContacts = ContactsUtil.getLocalContacts(this);
         Log.d(TAG, "localContacts=" + localContacts);
-//        ArrayList<ContactBean> simContactsBefore = ContactsDAO.getSimContacts(this);
-//        Log.d(TAG, "simContactsBefore=" + simContactsBefore);
-//        ContactsDAO.deleteToSim(this, "边建彪1111", "15033262664");
-//        ArrayList<ContactBean> simContactsAfter = ContactsDAO.getSimContacts(this);
-//        Log.d(TAG, "simContactsAfter=" + simContactsAfter);
-//        ContactsDAO.getTest(this);
     }
 
     @Override
@@ -147,14 +152,18 @@ public class ContactsListActivity extends BaseActivity {
         cancel.setText(getResources().getString(R.string.cancel));
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-
         int position = mContactsList.getSelectedItemPosition();
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_CENTER:
                 if (mContacts == null || mContacts.size() == 0) {
                     finish();
+                    return true;
+                }
+                if (override) {
+                    overrideContact(position);
                     return true;
                 }
                 if (selectMode) {
@@ -171,6 +180,10 @@ public class ContactsListActivity extends BaseActivity {
             case KeyEvent.KEYCODE_MENU:
                 if (mContacts == null || mContacts.size() == 0) {
                     finish();
+                    return true;
+                }
+                if (override) {
+                    overrideContact(position);
                     return true;
                 }
                 if (selectMode) {
@@ -209,8 +222,31 @@ public class ContactsListActivity extends BaseActivity {
                     finish();
                 }
                 break;
+            case KeyEvent.KEYCODE_CALL:
+                Log.i(TAG, "keycode call");
+                if (!pickMode && !selectMode && !override && !markSituation) {
+                    Intent call = new Intent(Intent.ACTION_CALL,
+                            Uri.parse("tel:" + mContacts.get(position).getNumber()));
+                    startActivity(call);
+                    return true;
+                }
+                break;
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    /**
+     * 覆盖已有联系人
+     */
+    private void overrideContact(int position) {
+        String newPhone = getIntent().getStringExtra(Constants.CONTACT_PHONE);
+        Intent override = new Intent(this, SaveConfirmActivity.class);
+        override.putExtra(Constants.CONTACT_PHONE, newPhone);
+        override.putExtra(Constants.ACTION, Constants.ACTION_OVERRIDE);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.CONTACT_BEAN, mContacts.get(position));
+        override.putExtras(bundle);
+        startActivityForResult(override, OVERRIDE_CONTACT);
     }
 
     private void selectFinish() {
@@ -249,6 +285,7 @@ public class ContactsListActivity extends BaseActivity {
         }
     }
 
+
     @Override
     protected void initView() {
         mContactsList = (ListView) findViewById(R.id.main);
@@ -260,11 +297,13 @@ public class ContactsListActivity extends BaseActivity {
         mContactsList.setAdapter(listAdapter);
         TextView title = (TextView) findViewById(R.id.title);
         TextView confirm = (TextView) findViewById(R.id.confirm);
+
         title.setText(getResources().getString(R.string.app_name));
+
 
         if (!selectMode && !(mContacts == null || mContacts.size() == 0))
             confirm.setText(getResources().getString(R.string.options));
-        if (pickMode) {
+        if (pickMode || override) {
             confirm.setText(getResources().getString(R.string.confirm));
         }
         mContactsList.setDivider(null);
@@ -275,6 +314,8 @@ public class ContactsListActivity extends BaseActivity {
                     selectFinish();
                 } else if (pickMode) {
                     returnPick(position);
+                } else if (override) {
+                    overrideContact(position);
                 } else {
                     readDetail(position);
                 }
@@ -307,6 +348,9 @@ public class ContactsListActivity extends BaseActivity {
             String action = data.getStringExtra(Constants.ACTION);
             Log.d(TAG, "action=" + action);
             int position = mContactsList.getSelectedItemPosition();
+            if (requestCode == OVERRIDE_CONTACT){
+                finish();
+            }
             if (TextUtils.equals(action, Constants.DELETE_DONE)) {
                 refreshData();
                 refreshView();
@@ -326,7 +370,7 @@ public class ContactsListActivity extends BaseActivity {
                 }
             } else if (TextUtils.equals(action, Constants.SAVE_COMMONT_DONE)) {
                 refreshData();
-            }else if (TextUtils.equals(action, Constants.COPY_DONE)){
+            } else if (TextUtils.equals(action, Constants.COPY_DONE)) {
                 refreshData();
                 refreshView();
                 unMarkAll();

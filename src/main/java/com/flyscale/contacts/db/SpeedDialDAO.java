@@ -40,6 +40,7 @@ public class SpeedDialDAO {
                 }
             }
         }
+
         return null;
     }
 

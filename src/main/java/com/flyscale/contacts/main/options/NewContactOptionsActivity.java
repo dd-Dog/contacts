@@ -2,6 +2,7 @@ package com.flyscale.contacts.main.options;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.telephony.TelephonyManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,6 @@ public class NewContactOptionsActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-
         if (SimCardState.hasSimCard(this)) {
             mOptionsData = getResources().getStringArray(R.array.phone_sim);
         } else {
@@ -57,6 +57,7 @@ public class NewContactOptionsActivity extends BaseActivity {
                 handleOption(position);
             }
         });
+
     }
 
 
@@ -66,6 +67,7 @@ public class NewContactOptionsActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null && intent.getExtras() != null)
             newContact.putExtras(intent.getExtras());
+        intent.putExtra(Constants.CONTACT_PHONE, getIntent().getStringExtra(Constants.CONTACT_PHONE));
         switch (position) {
             case 0:
                 newContact.putExtra(Constants.NEW_CONTACT_TYPE, ContactBean.TYPE_LOCAL);

@@ -391,6 +391,7 @@ public class ContactsDAO {
                     .getColumnIndex(Contacts.People.NUMBER));
             contactBeans.add(new ContactBean(name, phoneNumber, ContactBean.TYPE_SIM));
         }
+        cursor.close();
         return contactBeans;
     }
 

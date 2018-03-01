@@ -21,6 +21,8 @@ import com.flyscale.contacts.global.Constants;
 import com.flyscale.contacts.main.ContactDetailActivity;
 import com.flyscale.contacts.main.CopyStatusActivity;
 import com.flyscale.contacts.main.DeleteConfirmActivity;
+import com.flyscale.contacts.main.NoSimcardActivity;
+import com.flyscale.contacts.util.SimCardState;
 
 /**
  * Created by MrBian on 2018/1/16.
@@ -30,6 +32,7 @@ public class CopyOptionsActivity extends BaseActivity {
 
     private static final String TAG = "ContactListOptions";
     private static final int COPY_CONTACTS = 1022;
+    private static final int NO_SIMCARD = 1030;
     private String[] mOptionsData;
     private ListView mOptions;
     private ContactBean contactBean;
@@ -46,6 +49,11 @@ public class CopyOptionsActivity extends BaseActivity {
         if (contactBean != null) {
             if (TextUtils.equals(contactBean.getType(), ContactBean.TYPE_LOCAL)) {
                 mOptionsData = getResources().getStringArray(R.array.copy_to_sim);
+                if (!SimCardState.hasSimCard(this)){
+                    Intent nosim = new Intent(this, NoSimcardActivity.class);
+                    startActivityForResult(nosim, NO_SIMCARD);
+                    finish();
+                }
             } else if (TextUtils.equals(contactBean.getType(), ContactBean.TYPE_SIM)) {
                 mOptionsData = getResources().getStringArray(R.array.copy_to_phone);
             }

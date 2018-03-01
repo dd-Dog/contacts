@@ -95,6 +95,7 @@ public class ContactListOptionsActivity extends BaseActivity {
                 markFinish();
                 break;
             case 5:
+
                 Intent copy = new Intent(this, CopyOptionsActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.CONTACT_BEAN, contactBean);

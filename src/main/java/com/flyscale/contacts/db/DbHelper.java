@@ -9,14 +9,20 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class DbHelper extends SQLiteOpenHelper {
+    private static int n  = 0;
+    static {
+        n = 2;
+    }
 
     public DbHelper(Context context, int version) {
         super(context, DbConstants.CONTACTS_DB_NAME, null, version);
+
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DbConstants.SQL_CREATE_SPEED_DIAL_NUMBERS);
+        n=3;
     }
 
     @Override

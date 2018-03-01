@@ -33,6 +33,8 @@ public class NewContactActivity extends BaseActivity {
     private String newName;
     private String newPhone;
     private String mType;
+    private boolean nameEdited;
+    private boolean phoneEdited;
 
     @Override
     protected void setContentView() {
@@ -47,10 +49,14 @@ public class NewContactActivity extends BaseActivity {
                 || TextUtils.equals(action, Constants.SAVE_NEW_CONTACT)) {
             String name = getIntent().getStringExtra(Constants.CONTACT_NAME);
             String phone = getIntent().getStringExtra(Constants.CONTACT_PHONE);
-            if (!TextUtils.isEmpty(name))
+            if (!TextUtils.isEmpty(name)) {
                 mMainData[0] = name;
-            if (!TextUtils.isEmpty(phone))
+                nameEdited = true;
+            }
+            if (!TextUtils.isEmpty(phone)) {
                 mMainData[1] = phone;
+                phoneEdited = true;
+            }
         }
         mType = getIntent().getStringExtra(Constants.NEW_CONTACT_TYPE);
         Log.d(TAG, "mType=" + mType);
@@ -87,6 +93,8 @@ public class NewContactActivity extends BaseActivity {
     private void save() {
         Intent intent = new Intent(this, SaveConfirmActivity.class);
         intent.putExtra(Constants.ACTION, Constants.SAVE_NEW_CONTACT);
+        if (nameEdited) newName = mMainData[0];
+        if (phoneEdited) newPhone = mMainData[1];
         ContactBean newBean = new ContactBean(newName, newPhone, mType);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.CONTACT_BEAN, newBean);
@@ -114,9 +122,11 @@ public class NewContactActivity extends BaseActivity {
                 if (TextUtils.equals(action, Constants.ACTION_EDIT_NAME)) {
                     newName = data.getStringExtra(Constants.INTENT_DATA);
                     mMainData[0] = newName;
+                    nameEdited = true;
                 } else if (TextUtils.equals(action, Constants.ACTION_EDIT_PHONE)) {
                     newPhone = data.getStringExtra(Constants.INTENT_DATA);
                     mMainData[1] = newPhone;
+                    phoneEdited = true;
                 }
                 mMainTreeAdapter.notifyDataSetChanged();
             } else if (requestCode == SAVE_NEW_CONTACT) {

@@ -45,6 +45,7 @@
         <activity android:name=".main.options.CopyOptionsActivity"/>
         <activity android:name=".main.CopyStatusActivity"/>
         <activity android:name=".main.options.CopyDesOptionsActivity"/>
+        <activity android:name=".main.NoSimcardActivity"/>
 
         <provider
             android:authorities="com.flyscale.contacts.provider"

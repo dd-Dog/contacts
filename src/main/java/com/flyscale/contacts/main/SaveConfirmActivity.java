@@ -66,6 +66,10 @@ public class SaveConfirmActivity extends Activity {
                 dataComplete = true;
                 confirm.setVisibility(View.VISIBLE);
             }
+        }else if (TextUtils.equals(action, Constants.ACTION_OVERRIDE)){
+            status.setText(getResources().getString(R.string.override));
+            confirm.setVisibility(View.VISIBLE);
+            dataComplete = true;
         }
     }
 
@@ -99,11 +103,18 @@ public class SaveConfirmActivity extends Activity {
                         ContactBean newBean = new ContactBean(
                                 getIntent().getStringExtra(Constants.MODIFIED_NAME),
                                 getIntent().getStringExtra(Constants.MODIFIED_PHONE),
-                                this.contactBean.getType());
+                                contactBean.getRawId(),
+                                this.contactBean.getType(), false);
                         ContactsDAO.update(this, this.contactBean, newBean);
 
                     } else if (TextUtils.equals(action, Constants.SAVE_NEW_CONTACT)) {
                         ContactsDAO.add(this, contactBean);
+                    }else if (TextUtils.equals(action, Constants.ACTION_OVERRIDE)) {
+                        ContactBean newBean = new ContactBean(contactBean.getName(),
+                                getIntent().getStringExtra(Constants.CONTACT_PHONE),
+                                contactBean.getRawId(),
+                                this.contactBean.getType(), false);
+                        ContactsDAO.update(this, this.contactBean, newBean);
                     }
                     delayFinish();
                 }

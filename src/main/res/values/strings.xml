@@ -53,6 +53,8 @@
     <string name="save_position">Position</string>
     <string name="copy_confirm">Copy</string>
     <string name="copyt_success">Copy Success</string>
+    <string name="no_simcard">Insert SIM Card!</string>
+    <string name="override">Override?</string>
 
 
     <array name="main">
